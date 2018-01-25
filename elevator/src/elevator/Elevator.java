@@ -8,7 +8,7 @@ public class Elevator {
 	
 	ArrayList<Integer> upRequest = new ArrayList<Integer>();
 	ArrayList<Integer> downRequest = new ArrayList<Integer>();
-	Scanner scan = new Scanner(System.in);
+	
 	int floor = 1;
 	String direction = "up";
 	public boolean run = true;
