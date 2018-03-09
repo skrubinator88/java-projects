@@ -148,7 +148,7 @@ public class ArrayList {
 		return amount;
 	}
 	
-	//accepts an index of int value and an Object
+	//accepts an index of integer value and an Object
 	public void add(int index, Object x) {
 		//assigns a copy of the current list to a temp list
 		Object[] newList = list.clone();  
