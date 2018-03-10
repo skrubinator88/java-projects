@@ -7,6 +7,11 @@ public class Customer {
 	String firstName = "";
 	String phoneNumber = "";
 	
+	public Customer() {
+		lastName = "";
+		firstName = "";
+		phoneNumber = "";
+	}
 	public Customer(String first, String last, String phone) {
 		firstName = first;
 		lastName = last;
@@ -20,8 +25,8 @@ public class Customer {
 		int newIndex = Integer.parseInt(checkPhoneNumber(e, newTarget)[1]);
 		
 		if(newPosition == "before") {
-			e.add(newIndex, newTarget);
 			e.remove(target);
+			e.add(newIndex, newTarget);
 		}
 //		else if(newPosition == "after") {
 //			e.add(newIndex+1, newTarget);
@@ -34,33 +39,38 @@ public class Customer {
 	}
 	
 	public void changeFirstName(LinkedList<Customer> e, String first, Customer target) {
-		Customer newTarget = new Customer(first, target.lastName, target.phoneNumber);
-		
-		String position = checkFirstName(e, newTarget)[0];
-		int index = Integer.parseInt(checkFirstName(e, newTarget)[1]);
-		
-		if(position == "before") {
-			e.add(index, newTarget);
-			e.remove(target);
+		if(!e.isEmpty()) {
+			Customer newTarget = new Customer(first, target.lastName, target.phoneNumber);
+			
+			String position = checkFirstName(e, newTarget)[0];
+			int index = Integer.parseInt(checkFirstName(e, newTarget)[1]);
+			
+			if(position != "") {
+				e.remove(target);
+				e.add(index, newTarget);
+			}
+//			else if(position == "after") {
+//				e.add(index+1, newTarget);
+//				e.remove(target);
+//			}
+			else if(position == "") {
+				changePhone(e,newTarget.phoneNumber, target);
+			}
 		}
-//		else if(position == "after") {
-//			e.add(index+1, newTarget);
-//			e.remove(target);
-//		}
-		else if(position == "") {
-			changePhone(e,newTarget.phoneNumber, target);
+		else {
+			System.out.println("No records currently available");
 		}
 	}
 	
 	public void changeLastName(LinkedList<Customer> e, String last, Customer target) {
-		Customer newTarget = new Customer(last, target.lastName, target.phoneNumber);
+		Customer newTarget = new Customer(target.firstName, last, target.phoneNumber);
 		
 		String position = checkLastName(e, newTarget)[0];
 		int index = Integer.parseInt(checkLastName(e, newTarget)[1]);
 		
 		if(position == "before") {
-			e.add(index, newTarget);
 			e.remove(target);
+			e.add(index, newTarget);
 		}
 //		else if(position == "after") {
 //			e.add(index+1, newTarget);
@@ -73,19 +83,19 @@ public class Customer {
 	
 	
 	
-	public String getAttrib(String attrib) {
-		if(attrib.equalsIgnoreCase("first")) {
-			return firstName;
-		}
-		else if(attrib.equalsIgnoreCase("last")) {
-			return lastName;
-		}
-		else if(attrib.equalsIgnoreCase("phone")) {
-			return phoneNumber;
-		}
-		
-		return "Not a valid argument";
-	}
+//	public String getAttrib(String attrib) {
+//		if(attrib.equalsIgnoreCase("first")) {
+//			return firstName;
+//		}
+//		else if(attrib.equalsIgnoreCase("last")) {
+//			return lastName;
+//		}
+//		else if(attrib.equalsIgnoreCase("phone")) {
+//			return phoneNumber;
+//		}
+//		
+//		return "Not a valid argument";
+//	}
 	
 	private String checkDuplicate(Customer cust, Customer target) {
 		
@@ -110,16 +120,16 @@ public class Customer {
 		for(int i = 0; i < e.size(); i++) {
 			Customer currentCust = e.get(i);
 			
-			if(checkDuplicate(currentCust, target) != "lastName duplicate" || checkDuplicate(currentCust, target) != "firstName duplicate" || checkDuplicate(currentCust, target) != "duplicate") {
+			if(checkDuplicate(currentCust, target) != "lastName duplicate" && checkDuplicate(currentCust, target) != "firstName duplicate" && checkDuplicate(currentCust, target) != "duplicate") {
 				//check to see order of lastName
 				if(currentCust.lastName.compareToIgnoreCase(target.lastName) > 0) {
 					tokens[0] = "before";
 					tokens[1] = i+"";
 				}
-//				else if(currentCust.lastName.compareToIgnoreCase(target.lastName) < 0) {
-//					tokens[0] = "after";
-//					tokens[1] = i+"";
-//				}
+				else if(currentCust.lastName.compareToIgnoreCase(target.lastName) < 0) {
+					tokens[0] = "after";
+					tokens[1] = i+"";
+				}
 				else {
 					continue;
 				}
@@ -127,6 +137,8 @@ public class Customer {
 			}
 			else {
 				System.out.println(checkDuplicate(currentCust, target));
+				tokens[0] = "";
+				tokens[1] = i+"";
 				break;
 			}
 				
@@ -140,7 +152,7 @@ public class Customer {
 		for(int i = 0; i < e.size(); i++) {
 			Customer currentCust = e.get(i);
 			
-			if(checkDuplicate(currentCust, target) != "firstName duplicate" || checkDuplicate(currentCust, target) != "duplicate") {
+			if(checkDuplicate(currentCust, target) != "firstName duplicate" && checkDuplicate(currentCust, target) != "duplicate") {
 				//check to see order of lastName
 				if(currentCust.firstName.compareToIgnoreCase(target.firstName) > 0) {
 					tokens[0] = "before";
@@ -156,7 +168,8 @@ public class Customer {
 				
 			}
 			else {
-				System.out.println(checkDuplicate(currentCust, target));
+				tokens[0] = "";
+				tokens[1] = i+"";
 				break;
 			}
 		}
@@ -169,7 +182,7 @@ public class Customer {
 		for(int i = 0; i < e.size(); i++) {
 			Customer currentCust = e.get(i);
 			
-			if(checkDuplicate(currentCust, target) != "firstName duplicate" || checkDuplicate(currentCust, target) != "duplicate") {
+			if(checkDuplicate(currentCust, target) != "duplicate") {
 				//check to see order of lastName
 				if(currentCust.phoneNumber.compareToIgnoreCase(target.phoneNumber) > 0) {
 					tokens[0] = "before";
@@ -185,7 +198,8 @@ public class Customer {
 				
 			}
 			else {
-				System.out.println(checkDuplicate(currentCust, target));
+				tokens[0] = "";
+				tokens[1] = i+"";
 				break;
 			}
 		}
