@@ -1,7 +1,7 @@
 package calc;
 
 import java.util.Stack;
-
+//Purpose: To form the fundamental tasks of the calculator
 public class CalculatorEngine {
 	Stack<Integer> calcStack = new Stack<Integer>();
 	
